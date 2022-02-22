@@ -1,0 +1,5 @@
+---
+- name: test the url
+  hosts: all
+  roles:
+    - singlewebsite
