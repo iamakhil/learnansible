@@ -1,0 +1,48 @@
+variables are used to store values.
+Always start with letters.
+They can include letter, numbers and underscores.
+
+Types of ansible variables.
+Default variables
+Inventory variables
+Facts and local vars
+Registered vars
+
+
+Default variables
+
+some of the default vaiable names are
+inventory_hostname
+
+ansible all -m debug -a "var=inventory_hostname"
+ansible all -m debug -a "msg={{inventory_hostname}}"
+
+Inventory_hostname_short
+ansible all -m debug -a "var=inventory_hostname_short"
+
+Groups
+ansible all -m debug -a "var=groups"
+
+ansible all -m debug -a "var=groups.key()"
+
+host variables
+
+we can mention the variables in the hosts files
+
+ex
+[prod1]
+54.86.164.214 ansible_ssh_user=akhil ansible_ssh_pass-akhil@123
+
+
+Facts
+
+To get facts
+
+ansible all -m setup 
+we can also create a group to store all the variables.
+
+[prod1:vars]
+ansible_ssh_user=akhil
+ansible_ssh_pass-akhil@123
+
+ansible all -m file -a "path=demofile.txt state=touch"
