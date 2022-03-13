@@ -1,0 +1,57 @@
+Custom variable, datastructures
+
+They are represented in key values
+key:value
+x:23
+
+they should start with letters
+
+---
+- name: for custom variables
+  hosts: all
+  vars:
+    my_name: "Akhil"
+    my_number: 123456
+    my_score: 89.25
+    my_boolean: true
+  tasks:
+    - name: print variables
+      debug:
+        msg:
+          - "My name is {{my_name}} type {{my_name| type_debug}}"
+          - "My number is {{my_number}} type {{my_number|type_debug}}"
+          - "My score is {{my_score}} type {{my_score| type_debug}}"
+          - "My value is {{my_boolean}} type {{my_boolean| type_debug}}"
+
+
+Bool can be yes|no|True|False|true|false|
+
+Data Structures
+
+They are used to store multiple values.
+There are three types
+scalar
+sequence or list
+map or dictionary
+
+---
+- hosts: all
+  vars:
+    a: 23
+    packages: ["vim, nano"]
+    packages2:
+      - "httpd"
+      - "nginx"
+    web_servers: {"linux": "httpd","ubuntu": "apache2"}
+    web_servers2:
+      "linux" : "httpd"
+      "ubuntu" : "apache2"
+  gather_facts: false
+  tasks:
+    - name: print values of variables
+      debug:
+      # var: a
+      # var: packages  
+      # var: packages2[1]
+      # var: web_servers.keys()
+        var: web_servers['linux']
