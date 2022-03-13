@@ -1,0 +1,60 @@
+Registers
+
+Ansible module returns a data structure that can be registered into a variable.
+Ansible registers are used to store the output of a module/task into a variable.
+we can use it with conditional statements
+
+set_fact allows us to define new variables.
+
+---
+- name: This is to practice registers and set_fact
+  hosts: all
+  tasks:
+    - shell: "bash --version"
+      register: bashVersion_register
+    - set_fact:
+        bash_version: "{{bashVersion_register.stdout_lines[0].split(' ')[3]}}"
+    - debug:
+        var: bash_version
+        
+ 
+ Vars_prompt
+ 
+ This is used to take input or read a value from user.
+ 
+ ---
+- name: To test vars_prompt
+  hosts: all
+  vars_prompt:
+    - name: username
+      prompt: enter username
+      private: no
+    - name: password
+      promt: enter password
+      private: yes
+  tasks:
+    - name: output values
+      debug:
+        msg:
+          - " username is {{username}} and password is {{password}}"
+          
+          
+vars_files
+
+To call a file with variables from a yaml file.
+
+
+---
+a: 1234
+b: ["akhil","dsouza"]
+c: {"player1":"akhil","player2":"akhil2"}
+
+ ---
+- name: call variable from file
+  hosts: all
+  vars_files:
+    - variables_files.yml
+  tasks:
+    - name: variables are
+      debug:
+       var: b
