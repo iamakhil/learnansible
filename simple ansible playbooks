@@ -1,0 +1,97 @@
+Playbook is useful to perform multiple tasks.
+
+It is a yaml file consisting of one or more tasks
+it can also include variables, files, templates etc
+
+
+Structure of playbooks
+
+-Task
+contains specific tasks such as installing httpd server ,installing java etc
+-Play
+Collection of tasks with target servers
+-Playbook
+collection or lists or sequence of plays
+
+create an ansible.cfg file with the following information
+
+cat ansible.cfg 
+[defaults]
+inventory=hosts
+remote_user=ansible
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=False
+
+The info of nodes are mentioned below.
+[prod]
+instance-2
+[backup]
+instance-4
+
+
+let's write a sample playbook
+
+---
+- name: This is a simple playbook to install wget package
+  hosts: all
+  tasks:
+    - name: install wget
+      yum:
+        name: wget
+        state: present
+
+
+Multiple plays
+
+Page up
+---
+- name: This is a simple playbook to install wget package
+  hosts: backup
+  tasks:
+    - name: install wget
+      yum:
+        name: wget
+        state: latest
+- name: This is a simple playbook to install ntp  package
+  hosts: prod
+  tasks:
+    - name: install ntp
+      yum:
+        name: ntp
+        state: latest
+        
+        
+playbook to copy files
+ad-hoc command is ansible all -m copy "src=/home/ansible/sit/file.xml dest=/tmp"
+---
+- name: To copy files to taget machines
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: copy files
+      copy:
+        src: /home/ansible/sit/file.xml
+        dest: /tmp
+                
+
+To create a file
+
+ad-hoc ansible all -m file "path=/tmp/demo.txt state=touch"
+
+Page up
+---
+- name: To copy files to taget machines
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: copy files
+      copy:
+        src: /home/ansible/sit/file.xml
+        dest: /tmp
+    - name: create a file
+      file:
+        path: /tmp/demo.txt
+        state: touch
