@@ -1,0 +1,49 @@
+Debug module
+The module prints statements during execution and can be useful for debugging variables or expressions.
+
+Debug module accepts three parameters
+-msg
+-var
+-verbosity
+
+---
+- name: File to demostrate debug module
+  hosts: all
+  tasks:
+    - name: print messages
+      debug:
+        msg:
+          - "this is the first line"
+          - "This is the second line"
+          - "this is the third line"
+
+To print veriables
+
+#!/bin/ansible-playbook
+- name: to use varibles in debug
+  hosts: all
+  tasks:
+    - name: display message with variables
+      debug:
+#       msg: "this host is: {{inventory_hostname}}"
+        var: inventory_hostname
+        
+verbosity
+
+we should pass verbosity
+ansible-playbook verbosity.yml -vv
+
+---
+- name: to use verbosity in debug
+  hosts: all
+  tasks:
+   - name: display verbosity
+     debug:
+       msg: "this is default msg"
+   - name: verbosity is 2
+     debug:
+       msg: "verbosity is 2"
+       verbosity: 2
+       
+       
+ 
