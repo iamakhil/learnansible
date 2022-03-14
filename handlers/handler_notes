@@ -1,0 +1,17 @@
+The tasks under -handler will be performed if it is mentioned by some -notify.
+
+---
+- name: To learn handler
+  hosts: all
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: latest
+      notify:
+        - start service
+  handlers:
+    - name: start service
+      service:
+        name: httpd
+        state: started
