@@ -1,0 +1,61 @@
+To loop through a list of items use loop:
+
+Page up
+---
+- name: To use loops
+  hosts: all
+  tasks:
+    - name: install packages
+      yum:
+        name: "{{item}}"
+        state: present
+      loop:
+        - httpd
+        - nginx
+        - ntp
+
+
+
+To use tags use tags:
+
+---
+- name: Use tags
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "I am tag1"
+      tags: first
+    - debug:
+        msg: "I am tag2"
+      tags: two
+
+if ansible-playbook tags.yml -t first only first msg will be displayed.
+if ansible-playbook tags.yml --skip-tag first is run , the first tag will be skipped.
+
+
+
+---
+- name: Use tags
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "I am tag1"
+      tags:
+        - first
+        - always
+    - debug:
+        msg: "I am tag2"
+      tags:
+        - second
+        - never
+        
+Despite running ansible-playbook tags.yml -t second, first tag will be run because it has - always option.
+if I run ansible-playbook tags.yml, second tag will not be displayed because it has - never option.
+ 
+
+
+
+
+
